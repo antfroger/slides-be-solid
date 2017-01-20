@@ -1,0 +1,766 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Be SOLID | Antoine Froger</title>
+
+        <link rel="stylesheet" href="reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="reveal.js/css/theme/white.css">
+        <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+        <link rel="stylesheet" href="css/custom.css">
+
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <a href="https://newcraftgroup.com" class="logo" target="_blank">NEWCRAFT</a>
+                <section class="main">
+                    <h1>BE <strong>SOLID</strong></h1>
+
+                    <h5>Five basic programming principles</h5>
+
+                    <small>A <a href="https://www.newcraftgroup.com/" target="_blank">Newcraft</a> tech meeting</small>
+                </section>
+
+                <section>
+                    <section>
+                        <h2 class="has-shape type-rectangle color-yellow"><strong>S.O.L.I.D.</strong></h2>
+                        <p>
+                            SOLID is an acronym defining<br />
+                            <strong>five basic programming principles</strong>
+                        </p>
+                        <p>
+                            SOLID principles were defined by<br />
+                            </strong>Robert <em>"Uncle Bob"</em> Martin</strong><br />
+                            in the early 2000s
+                        </p>
+                    </section>
+                    <section >
+                        <h3>What does <strong>SOLID</strong> means?</h3>
+                        <ul class="no-bullet">
+                            <li><strong>S</strong>ingle Responsability Principle</li>
+                            <li><strong>O</strong>pen/Closed Principle</li>
+                            <li><strong>L</strong>iskov Substitution Principle</li>
+                            <li><strong>I</strong>nterface Segregation Principle</li>
+                            <li><strong>D</strong>ependency Inversion Principle</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2 class="has-shape type-rectangle color-yellow"><strong>S</strong>OLID</h2>
+                    </section>
+                    <section>
+                        <h3><strong>S</strong>ingle Responsability Principle*</h3>
+
+                        <p>There should <strong>never</strong> be more than <strong>one reason</strong><br />
+                        for a class to change.</p>
+
+                        <small>
+                        * also known as <a href="https://drive.google.com/file/d/0ByOwmqah_nuGNHEtcU5OekdDMkk/view" target="_blank">SRP</a>
+                        </small>
+                    </section>
+                    <section data-markdown data-transition="slide-in fade-out"><script type="text/template">
+                        ### **Don't** do <a href="http://wiki.c2.com/?GodClass" target="_blank">GOD classes</a>
+
+                        ```php
+                        class OrderEmailHandler
+                        {
+                            public function __construct(array $data) { /* ... */ }
+                            public function createMessage() { /* ... */ }
+                            public function send($email) { /* ... */ }
+                            public function displayWebVersion() { /* ... */ }
+                            private function validateEmail() { /* ... */ }
+                            private function checkUserPermission() { /* ... */ }
+                        }
+                        ```
+
+                        <img src="images/man-orchestra.jpg" alt="Man orchestra" class="orchestra">
+                    </script></section>
+                    <section data-markdown data-transition="fade-in fade-out"><script type="text/template">
+                        ### but rather **small** classes <small>(which work together)</small>
+                        ![](images/orchestra.jpg)
+                    </script></section>
+                    <section data-markdown data-transition="fade-in slide-out"><script type="text/template">
+                        ```php
+                        // namespace MyApp\Controller\Order;
+                        class OrderMessageController {}
+
+                        // namespace MyApp\Email\Order;
+                        class OrderMessageCreator {}
+                        class OrderMessageSender {}
+
+                        // namespace MyApp\Validator
+                        class EmailValidator {}
+                        ```
+                    </script></section>
+                    <section>
+                        <h3>One responsability per class</h3>
+
+                        <ul>
+                            <li>One reason to change</li>
+                            <li>Stay focused on a single concern</li>
+                            <li>Simplify maintenance</li>
+                            <li>Simplify testing</li>
+                            <li>Can be reused (DRY <i class="fa fa-heart"></i>)</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>One class per responsability</h3>
+
+                        <ul>
+                            <li>Always try to give every class its <strong>own</strong> responsibility</li>
+                            <li>Define for every responsibility a class</li>
+                            <li>When the responsability changes, <strong>only one class</strong> has to be modified</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Demo</h3>
+                        <h4>EmailAndPdfHtmlProcessor</h4>
+
+                        <p class="fragment">Responsible for:</p>
+
+                        <ul>
+                            <li class="fragment">creating the HTML used to render the PDF</li>
+                            <li class="fragment">creating the HTML used for the email body</li>
+                            <li class="fragment">creating the Switft_Message object</li>
+                        </ul>
+
+                        <span class="fragment message type-alert">Too many responsabilities</span>
+                    </section>
+                    <section>
+                        <h3>Tips <small>1/2</small></h3>
+
+                        <p>If your class name follows one of these rule,<br /> 
+                        you're probably on the wrong way</p>
+
+                        <ul>
+                            <li class="fragment">
+                                it contains a separator like <strong>And</strong> or <strong>Or</strong><br />
+                                <em>The class has probably more than one goal</em>
+                            </li>
+                            <li class="fragment">
+                                it uses very generic words like <strong>Manager</strong>, <strong>Handler</strong>, <strong>Helper</strong> etc.<br />
+                                <em>Be careful that the class responsibility is not too large</em>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section data-markdown><script type="text/template">
+                        <h3>Tips <small>2/2</small></h3>
+
+                        <p>Write straightforward code and comments</p>
+
+                        <p>
+                            Conditions like `if / elseif / else` and `switch` are an indicator.<br />
+                            If you start using many conditions you are going on the wrong direction
+                        </p>
+                    </script></section>
+                </section>
+                <section>
+                    <section>
+                        <h2 class="has-shape type-rectangle color-yellow">S<strong>O</strong>LID</h2>
+                    </section>
+                    <section data-markdown><script type="text/template">
+                        ### **O**pen/Closed Principle*
+
+                        Software entities should be **open for extension**,  
+                        but **closed for modification**.
+
+                        <small>
+                        \* also known as <a href="https://drive.google.com/file/d/0BwhCYaYDn8EgN2M5MTkwM2EtNWFkZC00ZTI3LWFjZTUtNTFhZGZiYmUzODc1/view" target="_blank">OCP</a>
+                        </small>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### In other words
+
+                        When a new functionality is needed,  
+                        we should **not modify our existing code**  
+                        but rather **write new code** that will be **used by existing code**. 
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### Example
+
+                        Calculating price
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### Context
+
+                        We sell subscriptions for a big phone operator 
+
+                        ```php
+                        public class Subscription
+                        {
+                            private $price;
+                            private $discount;
+                            private $optionPrice;
+                            
+                            // getters...
+                        }
+                        ```
+
+                        ```php
+                        class PriceCalculator
+                        {
+                            public function calculate(array $subscriptions)
+                            {
+                                $price = 0;
+                                foreach ($subscriptions as $subscription) {
+                                    $price += $subscription->getPrice() -
+                                        $subscription->getDiscount() +
+                                        $subscription->optionPrice;
+                                }
+
+                                return $price;
+                            }
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### New feature
+
+                        A new product `Phone` comes into play  
+                        ... and its price is calculated differently
+
+                        ```php
+                        public class Phone
+                        {
+                            private $quantity;
+                            private $price;
+                            private $discount;
+                            
+                            // getters...
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### How to calculate the new price?
+
+                        ```php
+                        class PriceCalculator
+                        {
+                            public function calculate(array $products)
+                            {
+                                $price = 0;
+                                foreach ($products as $product) {
+                                    if ($product instanceof Subscription) {
+                                        $price += $product->getPrice() -
+                                            $product->getDiscount() +
+                                            $product->getOptionPrice();
+                                    } else {
+                                        $price += $quantity *
+                                            ($product->getPrice() - $product->getDiscount());
+                                    }
+                                }
+
+                                return $price;
+                            }
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        <p>It works <strong>but</strong>...</p>
+
+                        <ul>
+                            <li class="fragment">`PriceCalculator` is <strong>not closed for modification</strong><br />
+                            as we need to change it in order to extend it.</li>
+                            <li class="fragment">We'll quickly have an <strong>ugly</strong> and <strong>unmaintenable</strong> peace of code</li>
+                        </ul>
+
+                        <span class="fragment message type-alert">Not a good solution</span>
+                    </script></section>
+                    <section data-markdown data-transition="slide-in fade-out"><script type="text/template">
+                        ### How to be **OCP** compliant?
+
+                        One solution among others
+
+                        <pre class="fragment"><code>
+                        interface Orderable
+                        {
+                            public function calculatePrice();
+                        }
+                        </code></pre>
+                    </script></section>
+                    <section data-markdown data-transition="fade-in fade-out"><script type="text/template">
+                        ```php
+                        public class Subscription implements Orderable
+                        {
+                            public function calculatePrice()
+                            {
+                                return $this->price - $this->discount + $product->optionPrice;
+                            }
+                        }
+                        ```
+                        ```php
+                        public class Phone implements Orderable
+                        {
+                            public function calculatePrice()
+                            {
+                                return $quantity * ($this->getPrice() - $this->getDiscount());
+                            }
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown data-transition="fade-in slide-out"><script type="text/template">
+                        ```php
+                        class PriceCalculator
+                        {
+                            /**
+                             * @param Orderable[] $products
+                             */
+                            public function calculate(array $products)
+                            {
+                                $price = 0;
+                                foreach ($products as $product) {
+                                    $price += $product->calculatePrice();
+                                }
+
+                                return $price;
+                            }
+                        }
+                        ```
+
+                        <p class="fragment">
+                            We'll never modify `PriceCalculator` again,<br />
+                            <strong>it's closed for modification.</strong>
+                        </p>
+                        <p class="fragment">
+                            When we need a new class, it implements `Orderable`<br />
+                            and calculate its price alone.<br />
+                        </p>
+                        <p class="fragment">
+                            We reduce the risk of introducing bugs in an old functionality
+                        </p>
+                    </script></section>
+                </section>
+                <section>
+                    <section>
+                        <h2 class="has-shape type-rectangle color-yellow">SO<strong>L</strong>ID</h2>
+                    </section>
+                    <section data-markdown><script type="text/template">
+                        ### **L**iskov Substitution Principle*
+
+                        Functions that use pointers or references to base classes  
+                        must be able **to use objects of derivated classes without knowing it**
+
+                        <small>
+                        \* also known as <a href="https://drive.google.com/file/d/0BwhCYaYDn8EgNzAzZjA5ZmItNjU3NS00MzQ5LTkwYjMtMDJhNDU5ZTM0MTlh/view" target="_blank">LSP</a>
+                        </small>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### In other words
+
+                        Objects in a program **should be replaceable with instances of their subtypes** without altering the correctness of the program.
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### Example
+
+                        That is **NOT** related to rectangles and squares
+
+                        <small>
+                        *But you can find the famous rectangle example <a href="https://drive.google.com/file/d/0BwhCYaYDn8EgNzAzZjA5ZmItNjU3NS00MzQ5LTkwYjMtMDJhNDU5ZTM0MTlh/view" target="_blank">here</a>*
+                        </small>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ```php
+                        class DeviceCollection
+                        {
+                            protected $collection;
+
+                            public function add(Device $device)
+                            {
+                                $this->collection[$device->getId()] = $device;
+                            }
+
+                            public function getAll()
+                            {
+                                return $this->collection;
+                            }
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ```php
+                        class OrderedDeviceCollection extends DeviceCollection
+                        {
+                            public function add(Device $device)
+                            {
+                                parent::add($device);
+
+                                usort($this->collection, function($a, $b) {
+                                    if (a->getPrice() ===$b->getPrice()) {
+                                        return 0;
+                                    }
+
+                                    return $(a->getPrice() < $b->getPrice()) ? -1 : 1;
+                                });
+                            }
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### Why the LSP is violated?
+
+                        ```php
+                        public function testAddToCollection()
+                        {
+                            $collection = new DeviceCollection();
+                            $collection->add(new Device(1, 9.99));
+                            $collection->add(new Device(2, 199));
+
+                            $this->assertEqual(
+                                [new Device(1, 9.99), new Device(2, 199)],
+                                $collection->getAll()
+                            );
+                            // true
+                        }
+                        ```
+
+                        <p class="fragment">
+                            <span>**Works!**</span>
+                            <span class="fragment">*But wait a minute...*</span>
+                        </p>
+
+                        <p class="fragment">
+                            What happens if we use<br />
+                            `$collection = new OrderedDeviceCollection();`?
+                        </p>
+
+                        <span class="fragment message type-alert">The test will fail!</span>
+
+                        <p class="fragment">
+                            We can't replace `DeviceCollection` by a class of its subtypes<br />
+                            <strong>LSP is violated</strong>
+                        </p>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### A LSP violation in our code
+
+                        ```php
+                        class CellSubscription extends Product
+                        {
+                            public function setMinutes($minutes)
+                            {
+                                $this->minutes = $minutes;
+                            }
+                        }
+                        ```
+
+                        ```php
+                        class ConfiguredCellSubscription extends CellSubscription
+                        {
+                            public function setMinutes($minutes)
+                            {
+                                throw new \BadMethodCallException('Cannot set minutes for configured cell subscription');
+                            }
+                        }
+                        ```
+
+                        <p>In that case, using <a href="https://en.wikipedia.org/wiki/Object_composition" target="_blank">composition</a>
+ would have been a better solution than <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank">inheritance</a></p>
+                    </script></section>
+                </section>
+                <section>
+                    <section>
+                        <h2 class="has-shape type-rectangle color-yellow">SOL<strong>I</strong>D</h2>
+                    </section>
+                    <section data-markdown><script type="text/template">
+                        ### **I**nterface Segregation Principle*
+
+                        Clients **should not** be forced to depend upon interfaces  
+                        that they do not use
+
+                        <small>
+                        \* also known as <a href="https://drive.google.com/file/d/0BwhCYaYDn8EgOTViYjJhYzMtMzYxMC00MzFjLWJjMzYtOGJiMDc5N2JkYmJi/view" target="_blank">ISP</a>
+                        </small>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### In other words
+
+                        **Many client specific interfaces** are better than  
+                        one general-purpose interface
+
+                        <p class="fragment">The bigger the interface is, the more likely it is that all its features  
+                        won't be used by the classes that implement it</p>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### Example: Product
+
+                        ```php
+                        interface ProductInterface {
+                            public function getTitle();
+                            public function getDescription();
+                            public function getPrice();
+                            public function getDeliveryMethods();
+                            public function getEstimatedDeliveryDate();
+                        }
+                        ```
+                        ```php
+                        class Product implements ProductInterface {
+                            public function getTitle() {
+                                //...
+                            }
+                            public function getDescription {
+                                //...
+                            }
+                            public function getPrice() {
+                                //...
+                            }
+                            public function getDeliveryMethods() {
+                                //...
+                            }
+                            public function getEstimatedDeliveryDate() {
+                                //...
+                            }
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### Example: Digital products are introduced
+
+                        We don't need to deliver digital products  
+                        but the `ProductInterface` forces us to  
+                        implement delivery methods
+
+                        ```php
+                        class DigitalProduct implements ProductInterface {
+                            // ...
+                            
+                            public function getDeliveryMethods() {
+                                throw new NotImplementedException();
+                            }
+                            public function getEstimatedDeliveryDate() {
+                                throw new NotImplementedException();
+                            }
+                        }
+                        ```
+
+                        <span class="fragment message type-alert">Not a good solution</span>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### How to improve that?
+
+                        <p class="fragment">Split the interface</p>
+
+                        <pre class="fragment"><code>
+                            interface ProductInterface {
+                                public function getTitle();
+                                public function getDescription();
+                                public function getPrice();
+                            }
+
+                            interface DeliverableInterface {
+                                public function getDeliveryMethods();
+                                public function getEstimatedDeliveryDate();
+                            }
+                        </code></pre>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        `Product` implements  
+                        `ProductInterface` **AND** `DeliverableInterface`
+
+                        ```php
+                        class Product implements ProductInterface, DeliverableInterface {
+                            public function getTitle() {
+                                //...
+                            }
+                            public function getDescription {
+                                //...
+                            }
+                            public function getPrice() {
+                                //...
+                            }
+                            public function getDeliveryMethods() {
+                                //...
+                            }
+                            public function getEstimatedDeliveryDate() {
+                                //...
+                            }
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        While `DigitalProduct`  
+                        **ONLY** implements `ProductInterface`
+
+                        Unneeded methods are not implemented
+
+                        ```php
+                        class DigitalProduct implements ProductInterface {
+                            public function getTitle() {
+                                //...
+                            }
+                            public function getDescription {
+                                //...
+                            }
+                            public function getPrice() {
+                                //...
+                            }
+                        }
+                        ```
+                    </script></section>
+                </section>
+                <section>
+                    <section>
+                        <h2 class="has-shape type-rectangle color-yellow">SOLI<strong>D</strong></h2>
+                    </section>
+                    <section data-markdown><script type="text/template">
+                        ### **D**ependency Inversion Principle*
+
+                        1. High level modules **should not** depend upon low level modules.  
+                        Both should depend upon abstractions.
+
+                        2. Abstractions **should not** depend upon details.  
+                        Details should depend upon abstractions.
+
+                        <p class="fragment">
+                            So,
+                            **Details** depends upon **Abstration**<br />
+                            **Abstraction** depends upon **Abstration**
+                        </p>
+
+                        <small>
+                        \* also known as <a href="https://martinfowler.com/articles/dipInTheWild.html" target="_blank">DIP</a>
+                        </small>
+                    </script></section>
+                    <section>
+                        <h3>
+                            <a href="https://lostechies.com/derickbailey/2011/09/22/dependency-injection-is-not-the-same-as-the-dependency-inversion-principle/" target="_blank">
+                                Dependency Injection is NOT the same as the<br />
+                                Dependency Inversion Principle
+                            </a>
+                        </h3>
+                    </section>
+                    <section data-markdown><script type="text/template">
+                        ## What is the benefit?
+
+                        <ul class="no-bullet">
+                            <li>**Remove tight** <a href="https://en.wikipedia.org/wiki/Coupling_(computer_programming)" target="_blank">coupling</a></li>
+                        </ul>
+
+                        So, we are able to replace a piece of the system without having to change more than that individual piece
+
+                        <p class="fragment"><em>When the wheel of your car is bursted,<br />you don't want to change the axletree, do you?</em></p>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### Example <small>(adapted from <a href="https://lostechies.com/gabrielschenker/2009/01/30/the-dependency-inversion-principle/" target="_blank">LosTechies</a>)</small>
+
+                        Let's imagine a service containing a encryption algorythm
+
+                        ```php
+                        class EncryptionService
+                        {
+                            public function encrypt($sourceFileName, $targetFileName)
+                            {
+                                // Read content
+                                $content = file_get_contents($sourceFileName);
+                         
+                                // encrypt
+                                $encryptedContent = $this->doEncryption($content);
+                         
+                                // write encrypted content
+                                file_put_contents($targetFileName, $encryptedContent);
+                            }
+                         
+                            private function doEncryption($content)
+                            {
+                                // put here your encryption algorithm...
+                                return $encryptedContent;
+                            }
+                        }
+                        ```
+
+                        <ul class="fragment no-bullet">
+                            <li>Highly coupled to files as input and output</li>
+                            <li>Can't be used in another context</li>
+                        </ul>
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        ### New try following DIP
+
+                        ```php
+                        class EncryptionService
+                        {
+                            public function encrypt(ReaderInterface $reader, WriterInterface $writer)
+                            {
+                                // Read content
+                                $content = $reader->getContent();
+                         
+                                // encrypt
+                                $encryptedContent = $this->doEncryption($content);
+                         
+                                // write encrypted content
+                                $writer->write($encryptedContent);
+                            }
+                         
+                            // doEncryption method...
+                        }
+                        ```
+
+                        ```php
+                        interface ReaderInterface
+                        {
+                            public function getContent();
+                        }
+                        ```
+                        
+                        ```php
+                        interface WriterInterface
+                        {
+                            public function write($content);
+                        }
+                        ```
+                    </script></section>
+                    <section data-markdown><script type="text/template">
+                        <h3>What's better?</h3>
+
+                        <ul>
+                            <li>`EncryptionService` is not dependent of<br />hardcoded reader and writer</li>
+                            <li>New readers and writers can be created<br />without modifying `EncryptionService` (OCP  <i class="fa fa-heart"></i>)</li>
+                            <li>`EncryptionService` can be easily tested</li>
+                        </ul>
+                    </script></section>
+                </section>
+                <section>
+                    <h1>Thanks</h1>
+                    <h2>Questions?</h2>
+
+                    <ul class="no-bullet">
+                        <li><i class="fa fa-github"></i> <a href="https://github.com/antfroger" class="text-no-transform">github.com/antfroger</a></li>
+                        <li><i class="fa fa-twitter"></i> <a href="https://twitter.com/__tooni__" class="text-no-transform">@__tooni__</a></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <script src="reveal.js/lib/js/head.min.js"></script>
+        <script src="reveal.js/js/reveal.js"></script>
+
+        <script>
+            Reveal.initialize({
+                history: true,
+                transition: 'slide',
+                slideNumber: !window.location.search.match(/print-pdf/gi),
+
+                dependencies: [
+                    { src: 'reveal.js/plugin/markdown/marked.js' },
+                    { src: 'reveal.js/plugin/markdown/markdown.js' },
+                    { src: 'reveal.js/plugin/notes/notes.js', async: true },
+                    { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>

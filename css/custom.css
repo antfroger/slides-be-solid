@@ -1,0 +1,156 @@
+.no-bullet li {
+    list-style-type: none;
+}
+
+.reveal {
+    font-family: "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 30px;
+    color: #000;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    font-family: "Kelson", Helvetica, sans-serif;
+    font-weight: 200;
+}
+
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    text-transform: none;
+}
+
+.reveal h1 small,
+.reveal h2 small,
+.reveal h3 small,
+.reveal h4 small,
+.reveal h5 small,
+.reveal h6 small {
+    vertical-align: initial;
+}
+
+.reveal a {
+    color:#000;
+    padding:4px;
+    font-family: "Kelson", Helvetica, sans-serif;
+    text-transform: uppercase;
+    background-color: #ff0;
+}
+.reveal a:hover {
+    transition: all .5s ease;
+    color:#fff;
+    background-color: #000;
+}
+
+.reveal .logo {
+    position: absolute;
+    top: 0%;
+    right:0%;
+    font-family: "Kelson", Helvetica, sans-serif;
+    font-size: 50%;
+}
+
+.reveal .main {
+    background-color: #ff0;
+}
+
+.reveal .text-no-transform {
+    text-transform: none;
+}
+
+/* messages */
+.reveal .message {
+    display: inline-block;
+    padding: 15px 25px 15px 25px;
+    margin: auto;
+    font-family: "Kelson", Helvetica, sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+    border-width: 1px;
+    border-style: solid;
+}
+.reveal .type-alert {
+    border-color: #f00;
+    color: #f00;
+    background-color: transparent;
+    transform: rotate(-15deg);
+}
+
+.reveal section img {
+    border: 0;
+    box-shadow: none;
+    background: none;
+}
+
+/* Inline code */
+.reveal p code {
+    letter-spacing: -2px;
+    color: #555;
+}
+
+.reveal .orchestra {
+    margin: -25% -65% 0 0;
+    max-width: 30%;
+    transform: rotate(10deg);
+}
+
+.has-shape {
+  position: relative;
+}
+.has-shape:before {
+    content: '';
+    display: block;
+    position: absolute;
+}
+.has-shape.type-rectangle:before {
+    width: 100%;
+    max-width: 520px;
+    height: 80px;
+    left: 32%;
+    transform: rotate(-15deg);
+    mix-blend-mode: multiply;
+}
+.has-shape.color-yellow:before {
+    background-color: #ff0;
+}
+
+body {
+    text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+    font-smoothing: antialiased;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+    background-color: #000;
+    color: #fff;
+}
+
+@font-face {
+  font-family: "Kelson";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/kelsonsans-regular.eot?") format("eot"),
+    url("../fonts/kelsonsans-regular.woff2") format("woff2"),
+    url("../fonts/kelsonsans-regular.woff") format("woff"),
+    url("../fonts/kelsonsans-regular.svg#Kelson") format("svg"),
+    url("../fonts/kelsonsans-regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Kelson";
+  font-style: normal;
+  font-weight: bold;
+  src: url("../fonts/kelsonsans-bold.eot?") format("eot"),
+      url("../fonts/kelsonsans-bold.woff2") format("woff2"),
+      url("../fonts/kelsonsans-bold.woff") format("woff"),
+      url("../fonts/kelsonsans-bold.svg#Kelson") format("svg"),
+      url("../fonts/kelsonsans-bold.ttf") format("truetype");
+}
