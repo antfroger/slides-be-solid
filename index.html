@@ -30,7 +30,7 @@
 
                     <h5>Five basic programming principles</h5>
 
-                    <small>A <a href="https://www.newcraftgroup.com/" target="_blank">Newcraft</a> tech meeting</small>
+                    <small>A <a href="https://www.newcraftgroup.com/" target="_blank">Newcraft</a> tech meetup</small>
                 </section>
 
                 <section>
@@ -46,7 +46,7 @@
                             in the early 2000s
                         </p>
                     </section>
-                    <section >
+                    <section>
                         <h3>What does <strong>SOLID</strong> means?</h3>
                         <ul class="no-bullet">
                             <li><strong>S</strong>ingle Responsability Principle</li>
@@ -126,7 +126,7 @@
                         </ul>
                     </section>
                     <section>
-                        <h3>Demo</h3>
+                        <h3><strong>Demo</strong></h3>
                         <h4>EmailAndPdfHtmlProcessor</h4>
 
                         <p class="fragment">Responsible for:</p>
@@ -336,7 +336,7 @@
                             <strong>it's closed for modification.</strong>
                         </p>
                         <p class="fragment">
-                            When we need a new class, it implements `Orderable`<br />
+                            When we need a new class, it has to implement `Orderable`<br />
                             and calculate its price alone.<br />
                         </p>
                         <p class="fragment">
@@ -399,33 +399,34 @@
                                 parent::add($device);
 
                                 usort($this->collection, function($a, $b) {
-                                    if (a->getPrice() ===$b->getPrice()) {
+                                    if ($a->getPrice() === $b->getPrice()) {
                                         return 0;
                                     }
 
-                                    return $(a->getPrice() < $b->getPrice()) ? -1 : 1;
+                                    return ($a->getPrice() < $b->getPrice()) ? -1 : 1;
                                 });
                             }
                         }
                         ```
                     </script></section>
                     <section data-markdown><script type="text/template">
-                        ### Why the LSP is violated?
+                        ### Why is the LSP violated?
 
-                        ```php
+                        <pre class="fragment"><code>
                         public function testAddToCollection()
                         {
                             $collection = new DeviceCollection();
                             $collection->add(new Device(1, 9.99));
                             $collection->add(new Device(2, 199));
+                            $collection->add(new Device(3, 59));
 
                             $this->assertEqual(
-                                [new Device(1, 9.99), new Device(2, 199)],
+                                [new Device(1, 9.99), new Device(2, 199), new Device(3, 59)],
                                 $collection->getAll()
                             );
                             // true
                         }
-                        ```
+                        </code></pre>
 
                         <p class="fragment">
                             <span>**Works!**</span>
@@ -468,7 +469,7 @@
                         ```
 
                         <p>In that case, using <a href="https://en.wikipedia.org/wiki/Object_composition" target="_blank">composition</a>
- would have been a better solution than <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank">inheritance</a></p>
+ would have been<br />a better solution than <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank">inheritance</a></p>
                     </script></section>
                 </section>
                 <section>
@@ -626,8 +627,8 @@
 
                         <p class="fragment">
                             So,
-                            **Details** depends upon **Abstration**<br />
-                            **Abstraction** depends upon **Abstration**
+                            **Details** should depend upon **Abstration**<br />
+                            **Abstractions** should depend upon **Abstration**
                         </p>
 
                         <small>
@@ -723,7 +724,7 @@
                         ```
                     </script></section>
                     <section data-markdown><script type="text/template">
-                        <h3>What's better?</h3>
+                        <h3>What is better?</h3>
 
                         <ul>
                             <li>`EncryptionService` is not dependent of<br />hardcoded reader and writer</li>
