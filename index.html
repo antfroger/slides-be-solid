@@ -134,37 +134,23 @@
                         <ul>
                             <li class="fragment">creating the HTML used to render the PDF</li>
                             <li class="fragment">creating the HTML used for the email body</li>
-                            <li class="fragment">creating the Switft_Message object</li>
+                            <li class="fragment">creating the Swift_Message object</li>
                         </ul>
 
                         <span class="fragment message type-alert">Too many responsabilities</span>
                     </section>
-                    <section>
-                        <h3>Tips <small>1/2</small></h3>
-
-                        <p>If your class name follows one of these rule,<br /> 
-                        you're probably on the wrong way</p>
-
-                        <ul>
-                            <li class="fragment">
-                                it contains a separator like <strong>And</strong> or <strong>Or</strong><br />
-                                <em>The class has probably more than one goal</em>
-                            </li>
-                            <li class="fragment">
-                                it uses very generic words like <strong>Manager</strong>, <strong>Handler</strong>, <strong>Helper</strong> etc.<br />
-                                <em>Be careful that the class responsibility is not too large</em>
-                            </li>
-                        </ul>
-                    </section>
-
                     <section data-markdown><script type="text/template">
-                        <h3>Tips <small>2/2</small></h3>
+                        <h3>Tips</h3>
 
-                        <p>Write straightforward code and comments</p>
+                        <p class="fragment">
+                            If your class name contains a separator like <strong>And</strong> or <strong>Or</strong><br />
+                            <em>The class has probably more than one goal</em>
+                        </p>
 
-                        <p>
+                        <p class="fragment">
+                            Write straightforward code and comments<br />
                             Conditions like `if / elseif / else` and `switch` are an indicator.<br />
-                            If you start using many conditions you are going on the wrong direction
+                            <em>If you start using many conditions you are going on the wrong direction</em>
                         </p>
                     </script></section>
                 </section>
@@ -340,7 +326,7 @@
                             and calculate its price alone.<br />
                         </p>
                         <p class="fragment">
-                            We reduce the risk of introducing bugs in an old functionality
+                            We reduce the risk of introducing bugs in an old functionality, as the `PriceCalculator::calculate()` method is already unit tested
                         </p>
                     </script></section>
                 </section>
