@@ -134,7 +134,7 @@
                         <ul>
                             <li class="fragment">creating the HTML used to render the PDF</li>
                             <li class="fragment">creating the HTML used for the email body</li>
-                            <li class="fragment">creating the Switft_Message object</li>
+                            <li class="fragment">creating the Swift_Message object</li>
                         </ul>
 
                         <span class="fragment message type-alert">Too many responsabilities</span>
@@ -153,6 +153,7 @@
                             <li class="fragment">
                                 it uses very generic words like <strong>Manager</strong>, <strong>Handler</strong>, <strong>Helper</strong> etc.<br />
                                 <em>Be careful that the class responsibility is not too large</em>
+                                (I won't be so strict about that, but it's maybe vert personnal : it's about semanitc. If, inside ypour team, you define a Manager as a class that access data from one entity, that's fine ; also, we the project grow, having Helpers may help. Lots of big & successful open-source projects are using that kind of classes. It's just a way of being more pragmatic :) )
                             </li>
                         </ul>
                     </section>
@@ -340,7 +341,7 @@
                             and calculate its price alone.<br />
                         </p>
                         <p class="fragment">
-                            We reduce the risk of introducing bugs in an old functionality
+                            We reduce the risk of introducing bugs in an old functionality, as PriceCalculator::calculate() method is already unit tested
                         </p>
                     </script></section>
                 </section>
@@ -731,6 +732,7 @@
                             <li>New readers and writers can be created<br />without modifying `EncryptionService` (OCP  <i class="fa fa-heart"></i>)</li>
                             <li>`EncryptionService` can be easily tested</li>
                         </ul>
+                        (could be interseting to say that this principle - as many, if not all - SOLID principles are valid from a micro vision to macro vision. For instance, DIP is also an architectural pattern. A good exemple of common use is that our business code - hight level - must not depend on PDO / MySQL for exemple, but on abstractions like Repositories(Interface)) 
                     </script></section>
                 </section>
                 <section>
