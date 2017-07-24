@@ -4,4 +4,6 @@
     $ cd slides-be-solid
     $ open index.html
 
-💾 [Download the slides](https://github.com/antfroger/slides-be-solid/raw/master/Be-SOLID.pdf)
+
+[Display the slides](https://antfroger.github.io/slides-be-solid/)  
+[Download the slides](https://github.com/antfroger/slides-be-solid/raw/master/Be-SOLID.pdf) 💾
