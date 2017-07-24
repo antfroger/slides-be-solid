@@ -4,3 +4,4 @@
     $ cd slides-be-solid
     $ open index.html
 
+💾 [Download the slides](https://github.com/antfroger/slides-be-solid/raw/master/Be-SOLID.pdf)
